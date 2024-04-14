@@ -8,7 +8,7 @@ import {
 
 GoogleSignin.configure({
   webClientId:
-    '832138626674-qu1i8a82fo24pu2l1hgmm1evbeo7qhjv.apps.googleusercontent.com',
+    '985372675855-ipsknnbg3romu6n9oqhnl7fe37lqqlb2.apps.googleusercontent.com',
 });
 
 import React, {useEffect} from 'react';
@@ -57,8 +57,8 @@ function LoginBlock({}) {
       const userInfo = await GoogleSignin.signIn();
 
       Alert.alert(
-        'Inkle Sample',
-        `Welcome, ${userInfo?.user?.name}!\nYou can now explore thousands of movies and tv shows.`,
+        'Voice Verse',
+        `Welcome, ${userInfo?.user?.name}!\nYou can transcrive voice from any language into English and detect it's emotion!`,
       );
 
       dispatch(setIdToken({idToken: userInfo.idToken}));
@@ -173,7 +173,7 @@ export default function LoginPage({}) {
               fontSize={36}
               align="center"
               color={AppColors(theme).WHITE}>
-              The Movie DB
+              Voice Verse
             </BaseText>
 
             <BaseText
@@ -181,7 +181,7 @@ export default function LoginPage({}) {
               fontWeight="400"
               align="center"
               color={AppColors(theme).WHITE}>
-              This is a sample app for Inkle made by Abhay Kumar
+              Convert sound into speech for any language.
             </BaseText>
           </Animated.View>
         )}

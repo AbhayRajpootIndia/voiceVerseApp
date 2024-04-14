@@ -99,7 +99,7 @@ export default function ProfilePage({}) {
       {!keyboardShown && (
         <View>
           <BaseText fontSize={36} align="center" color={AppColors(theme).WHITE}>
-            The Movie DB
+            Voice Verse
           </BaseText>
 
           <BaseText
@@ -107,7 +107,7 @@ export default function ProfilePage({}) {
             fontWeight="400"
             align="center"
             color={AppColors(theme).WHITE}>
-            This is a sample app for Inkle made by Abhay Kumar
+            Convert sound into speech for any language.
           </BaseText>
         </View>
       )}

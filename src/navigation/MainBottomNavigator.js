@@ -21,6 +21,7 @@ import {Platform} from 'react-native';
 
 // util
 import {useKeyboard} from '../hooks/useKeyboard';
+import VoiceTranscribePage from '../screens/VoiceTranscribePage';
 
 // tabBarConfig:
 const tabBarIconSize = {width: 28, height: 28};
@@ -76,6 +77,23 @@ export default function MainBottomNavigator() {
           inactiveColor: disabledColor,
         }}
       /> */}
+
+      <MainBottomTabs.Screen
+        name={NAV.VOICE_TRANSCRIBE_PAGE}
+        children={() => <VoiceTranscribePage />}
+        options={{
+          activeIcon: (
+            <ProfileIcon color={primaryColor} width={24} height={28} />
+          ),
+          inactiveIcon: (
+            <ProfileIcon color={disabledColor} width={24} height={28} />
+          ),
+          tabBarLabel: 'Voice',
+          tabBarLabelSize: tabBarLabelSize,
+          activeColor: primaryColor,
+          inactiveColor: disabledColor,
+        }}
+      />
 
       <MainBottomTabs.Screen
         name={NAV.PROFILE_PAGE}

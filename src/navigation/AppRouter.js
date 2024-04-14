@@ -31,6 +31,7 @@ export default function AppNavigator() {
   const idToken = useSelector(state => state.user.idToken);
 
   const initialRouteName = (() => {
+    // uncomment this while adding auth
     if (idToken) {
       return NAV.MAIN_BOTTOM_NAVIGATOR;
     }

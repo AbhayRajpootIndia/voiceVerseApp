@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "985372675855",
+    "project_id": "voiceverseapp",
+    "storage_bucket": "voiceverseapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985372675855:android:fdbc23c383ae96a7e2f87a",
+        "android_client_info": {
+          "package_name": "com.voiceverse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985372675855-sh0u109f796h2efe1ftvspo0pkufttup.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voiceverse",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "985372675855-ipsknnbg3romu6n9oqhnl7fe37lqqlb2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPigfMcxvLymPT639HpDejJRNMXxzQx6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "985372675855-ipsknnbg3romu6n9oqhnl7fe37lqqlb2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

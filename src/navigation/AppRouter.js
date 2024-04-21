@@ -18,6 +18,8 @@ import {AppColors} from '../constants/AppColors';
 import {useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 
+import DetectSentimentPage from '../screens/DetectSentimentPage';
+
 const MainStack = createStackNavigator();
 
 export default function AppNavigator() {
@@ -25,7 +27,7 @@ export default function AppNavigator() {
 
   const containerStyle = {
     flex: 1,
-    backgroundColor: AppColors(theme).BODY,
+    backgroundColor: AppColors(theme).BODY
   };
 
   const idToken = useSelector(state => state.user.idToken);
@@ -50,6 +52,11 @@ export default function AppNavigator() {
           <MainStack.Screen
             name={NAV.MAIN_BOTTOM_NAVIGATOR}
             component={MainBottomNavigator}
+          />
+
+          <MainStack.Screen
+            name={NAV.DETECT_SENTIMENT_PAGE}
+            component={DetectSentimentPage}
           />
         </MainStack.Navigator>
       </NavigationContainer>

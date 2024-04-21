@@ -9,20 +9,22 @@ import {
   TouchableOpacity,
   Button,
   Dimensions,
-  Linking,
+  Linking
 } from 'react-native';
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
   AudioEncoderAndroidType,
   AudioSourceAndroidType,
-  OutputFormatAndroidType,
+  OutputFormatAndroidType
 } from 'react-native-audio-recorder-player';
 
 import RNFetchBlob from 'rn-fetch-blob';
 import {extractEmotionFromAudio, welcome} from '../services/audio';
 import axios from 'axios';
 import {API_STATUS} from '../constants/StatusCodes';
+import {useNavigation} from '@react-navigation/native';
+import {NAV} from '../navigation/navigationConfig';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
@@ -31,9 +33,11 @@ const screenWidth = Dimensions.get('screen').width;
 export default function VoiceTranscribePage({}) {
   const dirs = RNFetchBlob.fs.dirs;
 
+  const navigation = useNavigation();
+
   const path = Platform.select({
     ios: 'temp.m4a',
-    android: `${dirs.CacheDir}/temp.mp3`,
+    android: `${dirs.CacheDir}/temp.mp3`
   });
 
   const [state, setState] = useState({
@@ -43,7 +47,7 @@ export default function VoiceTranscribePage({}) {
     currentPositionSec: 0,
     currentDurationSec: 0,
     playTime: '00:00:00',
-    duration: '00:00:00',
+    duration: '00:00:00'
   });
 
   let playWidth =
@@ -81,7 +85,7 @@ export default function VoiceTranscribePage({}) {
         const grants = await PermissionsAndroid.requestMultiple([
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO
         ]);
 
         console.log('write external stroage', grants);
@@ -115,7 +119,7 @@ export default function VoiceTranscribePage({}) {
       AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
-      OutputFormatAndroid: OutputFormatAndroidType.AAC_ADTS,
+      OutputFormatAndroid: OutputFormatAndroidType.AAC_ADTS
     };
 
     console.log('audioSet', audioSet);
@@ -130,7 +134,7 @@ export default function VoiceTranscribePage({}) {
       // console.log('record-back', e);
       setState({
         recordSecs: e.currentPosition,
-        recordTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+        recordTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition))
       });
     });
     console.log(`uri: ${uri}`);
@@ -153,7 +157,7 @@ export default function VoiceTranscribePage({}) {
     const result = await audioRecorderPlayer.stopRecorder();
     audioRecorderPlayer.removeRecordBackListener();
     setState({
-      recordSecs: 0,
+      recordSecs: 0
     });
     console.log(result);
   };
@@ -175,7 +179,7 @@ export default function VoiceTranscribePage({}) {
           currentPositionSec: e.currentPosition,
           currentDurationSec: e.duration,
           playTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
-          duration: audioRecorderPlayer.mmssss(Math.floor(e.duration)),
+          duration: audioRecorderPlayer.mmssss(Math.floor(e.duration))
         });
       });
     } catch (err) {
@@ -199,21 +203,15 @@ export default function VoiceTranscribePage({}) {
 
   const transcribeAudio = async () => {
     console.log(path);
-    await welcome(path)
-      .then(res => {
-        const {data, status} = res;
-        if (status === API_STATUS.SUCCESS) {
-          console.log(data);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
     await extractEmotionFromAudio(path)
       .then(res => {
         const {data, status} = res;
         if (status === API_STATUS.SUCCESS) {
           console.log(data);
+          const emotionData = data?.emotionsData;
+          navigation.navigate(NAV.DETECT_SENTIMENT_PAGE, {
+            emotionData: emotionData
+          });
         }
       })
       .catch(err => {
@@ -226,7 +224,7 @@ export default function VoiceTranscribePage({}) {
       contentContainerStyle={{
         flexGrow: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
       }}>
       <Text style={styles.titleTxt}>Record Your Audio</Text>
       <Text style={styles.txtRecordCounter}>{state.recordTime}</Text>
@@ -244,8 +242,8 @@ export default function VoiceTranscribePage({}) {
             style={[
               styles.btn,
               {
-                marginLeft: 12,
-              },
+                marginLeft: 12
+              }
             ]}
             onPress={onPauseRecord}
             textStyle={styles.txt}
@@ -255,8 +253,8 @@ export default function VoiceTranscribePage({}) {
             style={[
               styles.btn,
               {
-                marginLeft: 12,
-              },
+                marginLeft: 12
+              }
             ]}
             onPress={onResumeRecord}
             textStyle={styles.txt}
@@ -292,8 +290,8 @@ export default function VoiceTranscribePage({}) {
             style={[
               styles.btn,
               {
-                marginLeft: 12,
-              },
+                marginLeft: 12
+              }
             ]}
             onPress={onPausePlay}
             textStyle={styles.txt}
@@ -304,8 +302,8 @@ export default function VoiceTranscribePage({}) {
             style={[
               styles.btn,
               {
-                marginLeft: 12,
-              },
+                marginLeft: 12
+              }
             ]}
             onPress={onResumePlay}
             textStyle={styles.txt}
@@ -315,14 +313,16 @@ export default function VoiceTranscribePage({}) {
             style={[
               styles.btn,
               {
-                marginLeft: 12,
-              },
+                marginLeft: 12
+              }
             ]}
             onPress={onStopPlay}
             textStyle={styles.txt}
           />
         </View>
       </View>
+
+      <View style={{height: 50}} />
 
       <Button title="Transcribe" onPress={transcribeAudio} />
     </ScrollView>
@@ -334,60 +334,60 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#455A64',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   titleTxt: {
     marginTop: 100,
     color: 'black',
-    fontSize: 28,
+    fontSize: 28
   },
   viewRecorder: {
     marginTop: 40,
     width: '100%',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   recordBtnWrapper: {
     flexDirection: 'row',
-    columnGap: 10,
+    columnGap: 10
   },
   viewPlayer: {
     marginTop: 60,
     alignSelf: 'stretch',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   viewBarWrapper: {
     marginTop: 28,
     marginHorizontal: 28,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   viewBar: {
     backgroundColor: '#ccc',
     height: 4,
-    alignSelf: 'stretch',
+    alignSelf: 'stretch'
   },
   viewBarPlay: {
     backgroundColor: 'white',
     height: 4,
-    width: 0,
+    width: 0
   },
   playStatusTxt: {
     marginTop: 8,
-    color: '#ccc',
+    color: '#ccc'
   },
   playBtnWrapper: {
     flexDirection: 'row',
     marginTop: 40,
-    columnGap: 10,
+    columnGap: 10
   },
   btn: {
     borderColor: 'black',
-    borderWidth: 1,
+    borderWidth: 1
   },
   txt: {
     color: 'black',
     fontSize: 14,
     marginHorizontal: 8,
-    marginVertical: 4,
+    marginVertical: 4
   },
   txtRecordCounter: {
     marginTop: 32,
@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     fontWeight: '200',
     fontFamily: 'Helvetica Neue',
-    letterSpacing: 3,
+    letterSpacing: 3
   },
   txtCounter: {
     marginTop: 12,
@@ -405,6 +405,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     fontWeight: '200',
     fontFamily: 'Helvetica Neue',
-    letterSpacing: 3,
-  },
+    letterSpacing: 3
+  }
 });

@@ -20,7 +20,9 @@ import AudioRecorderPlayer, {
 } from 'react-native-audio-recorder-player';
 
 import RNFetchBlob from 'rn-fetch-blob';
-import {extractEmotionFromAudio} from '../services/audio';
+import {extractEmotionFromAudio, welcome} from '../services/audio';
+import axios from 'axios';
+import {API_STATUS} from '../constants/StatusCodes';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
@@ -196,23 +198,27 @@ export default function VoiceTranscribePage({}) {
   };
 
   const transcribeAudio = async () => {
-    fetch('https://192.168.189.112:5000/welcome')
+    console.log(path);
+    await welcome(path)
       .then(res => {
-        console.log(res);
+        const {data, status} = res;
+        if (status === API_STATUS.SUCCESS) {
+          console.log(data);
+        }
       })
       .catch(err => {
         console.log(err);
+      });
+    await extractEmotionFromAudio(path)
+      .then(res => {
+        const {data, status} = res;
+        if (status === API_STATUS.SUCCESS) {
+          console.log(data);
+        }
       })
-      .finally(() => console.log('done'));
-
-    // await extractEmotionFromAudio(path)
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   })
-    //   .finally(() => console.log('done'));
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (

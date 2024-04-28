@@ -20,9 +20,6 @@ import AudioRecorderPlayer, {
 } from 'react-native-audio-recorder-player';
 
 import RNFetchBlob from 'rn-fetch-blob';
-import {extractEmotionFromAudio, welcome} from '../services/audio';
-import axios from 'axios';
-import {API_STATUS} from '../constants/StatusCodes';
 import {useNavigation} from '@react-navigation/native';
 import {NAV} from '../navigation/navigationConfig';
 
@@ -202,7 +199,6 @@ export default function VoiceTranscribePage({}) {
   };
 
   const transcribeAudio = async () => {
-    console.log(path);
     await extractEmotionFromAudio(path)
       .then(res => {
         const {data, status} = res;

@@ -1,36 +1,21 @@
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-
 import React from 'react';
-import {View, ScrollView, StyleSheet, Image, Button} from 'react-native';
+import {View, ScrollView, StyleSheet, Button} from 'react-native';
 
 // components
 import BaseText from '../components/UI/Text/BaseText';
 import BaseContainer from '../components/UI/Containers/BaseContainer';
-import PrimaryButton from '../components/UI/PrimaryButton';
-
-// constants
-import {AppColors} from '../constants/AppColors';
-
-// redux
-import {useDispatch, useSelector} from 'react-redux';
 
 // hooks
 import {useKeyboard} from '../hooks/useKeyboard';
 
 // animations
 import {useNavigation} from '@react-navigation/native';
-import {NAV} from '../navigation/navigationConfig';
-import {logout} from '../store/redux/userSlice';
 import {useRoute} from '@react-navigation/native';
 
 export default function ProfilePage({}) {
-  const theme = useSelector(state => state.theme.theme);
-
   const params = useRoute()?.params;
   const navigation = useNavigation();
   const emotionData = params?.emotionData;
-
-  console.log(emotionData);
 
   const {keyboardShown} = useKeyboard();
 
@@ -39,16 +24,29 @@ export default function ProfilePage({}) {
       contentContainerStyle={[
         styles.container,
         {
-          paddingTop: keyboardShown ? 10 : 40
+          paddingTop: keyboardShown ? 10 : 40,
+          paddingHorizontal: 20,
+          rowGap: 20
         }
       ]}>
-      <BaseText fontSize={20}>Emotion is : {emotionData?.emotion}</BaseText>
-
-      <BaseText fontSize={20}>
-        Confidence is : {parseFloat(emotionData?.probability).toFixed(5)}
+      <BaseText fontSize={16} align="center" style={{paddingVertical: 5}}>
+        Emotion is : {'\n'}
+        <BaseText fontSize={20}>{emotionData?.emotion}</BaseText>
       </BaseText>
 
-      <BaseText fontSize={20}>Text was : {emotionData?.text}</BaseText>
+      <BaseText fontSize={16} align="center" style={{paddingVertical: 5}}>
+        Confidence is : {'\n'}
+        <BaseText fontSize={20}>
+          {parseFloat(emotionData?.probability).toFixed(5)}
+        </BaseText>
+      </BaseText>
+
+      <BaseContainer style={{backgroundColor: 'wheat'}}>
+        <BaseText fontSize={16} align="center" style={{paddingVertical: 5}}>
+          Text was : {'\n'}
+          <BaseText fontSize={20}>{emotionData?.text}</BaseText>
+        </BaseText>
+      </BaseContainer>
 
       <View style={{height: 20}} />
 
